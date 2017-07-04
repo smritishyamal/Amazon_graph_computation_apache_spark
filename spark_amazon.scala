@@ -67,3 +67,22 @@ val triCounts = amazonGraph.triangleCount()
 val totalTriCounts = triCounts.vertices.map(x => x._2).reduce(_ + _) / 3
 println("Total number of triangles: " + totalTriCounts)
 
+// We can find all the weakly connected components by calling connectedComponents() method and the result will be a 
+// Graph object labeling each component by the lowest-numbered vertex.
+val wcc = amazonGraph.connectedComponents()
+
+val numVertWCC = wcc.vertices.map(x => (x._2, 1)).reduceByKey(_ + _)
+val numVertLargestWCC = numVertWCC.map(_.swap).sortByKey(ascending=false).first()
+println("Number of vertices in the largest WCC: " + numVertLargestWCC._1)
+println("Total number of WCC: " + numVertWCC.count())
+
+// Finally, we can use google's Page Rank algorithm to measure the importance of
+// a product based on the number (and quality) of other products that were bought 
+// with it. That is, when multiple products (with high quality) are frequently 
+// co-purchased with a product  j,
+//  then product  j
+//  recieves high importance or weight.
+val pr = amazonGraph.staticPageRank(numIter=5)
+val productsRank = pr.vertices.map(_.swap).sortByKey(ascending=false).map(_.swap)
+println("Five most important product ids and their weights:")
+productsRank.take(5).foreach(println)
