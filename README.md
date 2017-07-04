@@ -1,0 +1,2 @@
+# Amazon_graph_computation_apache_spark
+This answers some of basic and important questions about Amazon product co-purchasing network (March 02 2003 dataset) using GraphX (Apache Spark graph processing library with its Scala API). More precisely, we want to see how to define the notion of cluster in products and purchases? and finally how to compute the measure of importance of products with page rank algorithm? Meanwhile, we will replicate some of the results here about the properties of the dataset represented as a graph. 
